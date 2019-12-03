@@ -16,7 +16,7 @@ jobs:
 
       - image: rabbitmq:3.5.4
       
-      - image: circleci/node:12.13.1 # ...with this image as the primary container; this is where all `steps` will run
+      - image: circleci/node: 12.13.1 # ...with this image as the primary container; this is where all `steps` will run
        # and this image as the secondary service container
 
     environment:
@@ -27,13 +27,14 @@ jobs:
     steps:
       - checkout
 
-
       - run:
           command: echo 127.0.0.1 devhost | sudo tee -a /etc/hosts
 
       # Create Postgres users and database
       # Note the YAML heredoc '|' for nicer formatting
-
+      - run: |
+          sudo -u root createuser -h localhost --superuser ubuntu &&
+          sudo createdb -h localhost test_db
 
       - restore_cache:
           keys:
@@ -110,4 +111,5 @@ workflows:
           filters:
             branches:
               only: master
+
 
