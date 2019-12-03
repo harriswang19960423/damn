@@ -1,6 +1,14 @@
 version: 2.1 # use CircleCI 2.1
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
+    branches:
+    only:
+        - master
+        - /rc-.*/
+    branches:
+    ignore:
+        - develop
+        - /feature-.*/
     working_directory: ~/mern-starter # directory where steps will run
     docker: # run the steps with Docker
       - image: circleci/node:12.13.1 # ...with this image as the primary container; this is where all `steps` will run
